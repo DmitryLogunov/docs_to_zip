@@ -1,0 +1,21 @@
+version: '2.1'
+services:
+  app:
+    image: 'export_docs_from_db_to_zip'
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./src:/usr/src/app
+    links:
+      - mysql
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3366:3306"
+    environment:
+      MYSQL_USER: $MYSQL_USER
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    volumes:
+      - ./src/db:/docker-entrypoint-initdb.d
+       
